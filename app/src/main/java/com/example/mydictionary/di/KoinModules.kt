@@ -1,18 +1,18 @@
 package com.example.mydictionary.di
 
 import androidx.room.Room
-import com.example.mydictionary.model.data.DataModel
-import com.example.mydictionary.model.datasource.RetrofitImplementation
-import com.example.mydictionary.model.datasource.RoomDataBaseImplementation
-import com.example.mydictionary.model.repositiry.Repository
-import com.example.mydictionary.model.repositiry.RepositoryImplementation
-import com.example.mydictionary.model.repositiry.RepositoryImplementationLocal
-import com.example.mydictionary.model.repositiry.RepositoryLocal
-import com.example.mydictionary.room.HistoryDataBase
-import com.example.mydictionary.view.history.HistoryInteractor
+import com.example.model.data.DataModel
+import com.example.repository.datasource.RetrofitImplementation
+import com.example.repository.datasource.RoomDataBaseImplementation
+import com.example.repository.repositiry.Repository
+import com.example.repository.repositiry.RepositoryImplementation
+import com.example.repository.repositiry.RepositoryImplementationLocal
+import com.example.repository.repositiry.RepositoryLocal
+import com.example.repository.room.HistoryDataBase
+import com.example.historyscreen.HistoryInteractor
 import com.example.mydictionary.view.main.MainInteractor
-import com.example.mydictionary.viewmodel.HistoryViewModel
-import com.example.mydictionary.viewmodel.MainViewModel
+import com.example.historyscreen.HistoryViewModel
+import com.example.mydictionary.view.main.MainViewModel
 import org.koin.dsl.module
 
 /**Для удобства создадим две переменные: в одной находятся зависимости, используемые во всём приложении, во второй - зависимости конкретного экрана.
@@ -28,7 +28,11 @@ val application = module {
         RepositoryImplementation(RetrofitImplementation())
     }
     single<RepositoryLocal<List<DataModel>>> {
-        RepositoryImplementationLocal(RoomDataBaseImplementation(get()))
+        RepositoryImplementationLocal(
+            RoomDataBaseImplementation(
+                get()
+            )
+        )
     }
 }
 

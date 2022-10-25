@@ -8,8 +8,6 @@
     <string name="button_search">Поиск</string>
     <string name="search_hint">Новое слово</string>
     <string name="image_stub">Изображение</string>
-    <string name="dialog_button_cancel">Отмена</string>
-    <string name="dialog_title_stub">Неопределенная ошибка</string>
     <string name="dialog_title_device_is_offline">Подключение к Интернету отсутствует</string>
     <string name="dialog_message_device_is_offline">Вы не можете использовать приложение без подключения к Интернету. Пожалуйста, проверьте интернет-соединение.</string>
     <string name="dialog_tittle_sorry">Извините</string>

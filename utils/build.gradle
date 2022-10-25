@@ -1,0 +1,18 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
+}
+
+dependencies {
+
+    //Kotlin
+    implementation Kotlin.core
+    //AndroidX
+    implementation Design.appcompat
+    //Test
+    testImplementation TestImpl.junit
+    androidTestImplementation TestImpl.ext_junit
+    androidTestImplementation TestImpl.espressoCore
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+}

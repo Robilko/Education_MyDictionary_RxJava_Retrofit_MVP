@@ -9,8 +9,6 @@
     <string name="delete_description" translatable="false">X</string>
     <string name="example_description" translatable="false">Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
     <string name="image_stub">image</string>
-    <string name="dialog_button_cancel">Cancel</string>
-    <string name="dialog_title_stub">Undefined error</string>
     <string name="dialog_title_device_is_offline">No internet connection</string>
     <string name="dialog_message_device_is_offline">You can not use app without internet connection. Please, check
         internet connection.

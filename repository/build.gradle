@@ -1,0 +1,32 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
+    id 'kotlin-kapt'
+}
+
+dependencies {
+    implementation project(Modules.model)
+
+    //Kotlin
+    implementation Kotlin.core
+    //Test
+    testImplementation TestImpl.junit
+    androidTestImplementation TestImpl.ext_junit
+    androidTestImplementation TestImpl.espressoCore
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    // Retrofit 2
+    implementation Retrofit.retrofit
+    implementation Retrofit.converterGson
+    implementation Retrofit.interceptor
+    implementation Retrofit.coroutinesAdapter
+
+    //Coroutines
+    implementation Kotlin.coroutines_core
+    implementation Kotlin.coroutines_android
+
+    //Room
+    implementation Room.runtime
+    kapt Room.compiler
+    implementation Room.room_ktx
+}

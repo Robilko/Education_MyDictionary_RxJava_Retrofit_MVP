@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Мой словарь</string>
+    <string name="error_textview_stub">Внимание</string>
+    <string name="empty_server_response_on_success">Ответ от сервера пустой</string>
+    <string name="dialog_title_device_is_offline">Подключение к Интернету отсутствует</string>
+    <string name="dialog_message_device_is_offline">Вы не можете использовать приложение без подключения к Интернету. Пожалуйста, проверьте интернет-соединение.</string>
+    <string name="dialog_tittle_sorry">Извините</string>
+</resources>

@@ -7,9 +7,32 @@ buildscript {
     dependencies {
         classpath "com.android.tools.build:gradle:7.0.2"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10"
+    }
+}
+// For all subprojects - generate compileSdkVersion, minSdkVersion,
+// targetSdkVersion and Java compatibility
+subprojects {
+    afterEvaluate { project ->
+        if (project.plugins.findPlugin('android') ?:
+                project.plugins.findPlugin('android-library')) {
+            android {
+                compileSdkVersion Config.compile_sdk
 
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+                buildFeatures {
+                    viewBinding true
+                }
+
+                defaultConfig {
+                    minSdkVersion Config.min_sdk
+                    targetSdkVersion Config.target_sdk
+                }
+
+                compileOptions {
+                    sourceCompatibility Config.java_version
+                    targetCompatibility Config.java_version
+                }
+            }
+        }
     }
 }
 

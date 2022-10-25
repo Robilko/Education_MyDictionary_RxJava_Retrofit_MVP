@@ -5,17 +5,16 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import com.example.model.data.AppState
+import com.example.core.BaseActivity
 import com.example.mydictionary.*
 import com.example.mydictionary.databinding.ActivityMainBinding
-import com.example.mydictionary.model.data.AppState
-import com.example.mydictionary.model.data.DataModel
+import com.example.model.data.DataModel
+import com.example.utils.network.isOnline
+import com.example.mydictionary.view.descriptionscreen.DescriptionActivity
+import com.example.historyscreen.HistoryActivity
 import com.example.mydictionary.utils.convertMeaningsTranscriptionToString
 import com.example.mydictionary.utils.convertMeaningsTranslationToString
-import com.example.mydictionary.utils.network.isOnline
-import com.example.mydictionary.view.base.BaseActivity
-import com.example.mydictionary.view.descriptionscreen.DescriptionActivity
-import com.example.mydictionary.view.history.HistoryActivity
-import com.example.mydictionary.viewmodel.MainViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -27,8 +26,6 @@ private const val BOTTOM_SHEET_FRAGMENT_DIALOG_TAG = "74a54328-5d62-46bf-ab6b-cb
 class MainActivity : BaseActivity<AppState, MainInteractor>() {
 
     private lateinit var binding: ActivityMainBinding
-
-    var dataModel: DataModel? = null
 
     /**Создаём модель*/
     override lateinit var model: MainViewModel
@@ -47,8 +44,8 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
                 this@MainActivity,
                 data.text!!,
                 convertMeaningsTranscriptionToString(data.meanings!!),
-                convertMeaningsTranslationToString(data.meanings),
-                data.meanings[0].imageUrl
+                convertMeaningsTranslationToString(data.meanings!!),
+                data.meanings!![0].imageUrl
             )
         )
     }
@@ -84,8 +81,8 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
                                 this@MainActivity,
                                 data.text!!,
                                 convertMeaningsTranscriptionToString(data.meanings!!),
-                                convertMeaningsTranslationToString(data.meanings),
-                                data.meanings[0].imageUrl
+                                convertMeaningsTranslationToString(data.meanings!!),
+                                data.meanings!![0].imageUrl
                             )
                         )
                     } ?: model.handleError(Throwable("$searchWord ${getString(R.string.history_search_word_error)}"))

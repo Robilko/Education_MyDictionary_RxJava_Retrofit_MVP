@@ -1,0 +1,30 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
+}
+
+dependencies {
+    implementation project(Modules.core)
+    implementation project(Modules.model)
+    implementation project(Modules.repository)
+
+    implementation Design.appcompat
+    implementation Design.recycleView
+    //Kotlin
+    implementation Kotlin.core
+    implementation Kotlin.stdlib
+    implementation Kotlin.coroutines_core
+    implementation Kotlin.coroutines_android
+
+    //Koin
+    implementation Koin.core
+    implementation Koin.android
+    implementation Koin.android_compat
+
+    //Test
+    testImplementation TestImpl.junit
+    androidTestImplementation TestImpl.ext_junit
+    androidTestImplementation TestImpl.espressoCore
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+}

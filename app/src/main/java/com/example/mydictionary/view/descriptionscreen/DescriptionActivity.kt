@@ -17,10 +17,10 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.example.mydictionary.R
 import com.example.mydictionary.databinding.ActivityDescriptionBinding
-import com.example.mydictionary.utils.network.isOnline
+import com.example.utils.network.isOnline
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
-import com.example.mydictionary.utils.ui.AlertDialogFragment
+import com.example.utils.ui.AlertDialogFragment
 import java.lang.Exception
 
 class DescriptionActivity : AppCompatActivity() {

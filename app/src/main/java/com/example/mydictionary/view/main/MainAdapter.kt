@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mydictionary.R
-import com.example.mydictionary.model.data.DataModel
-import com.example.mydictionary.utils.convertMeaningsTranslationToString
+import com.example.model.data.DataModel
+import com.example.repository.utils.convertMeaningsTranslationToString
 
 class MainAdapter(
     private var onListItemClick: (DataModel) -> Unit
