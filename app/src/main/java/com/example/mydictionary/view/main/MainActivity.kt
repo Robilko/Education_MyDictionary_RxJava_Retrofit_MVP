@@ -4,20 +4,31 @@ import android.os.Bundle
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.Toast
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mydictionary.*
+import com.example.mydictionary.application.MyDictionaryApp
 import com.example.mydictionary.databinding.ActivityMainBinding
 import com.example.mydictionary.model.data.AppState
 import com.example.mydictionary.model.data.DataModel
-import com.example.mydictionary.presenter.Presenter
 import com.example.mydictionary.view.base.BaseActivity
-import com.example.mydictionary.view.base.BaseView
 import com.example.mydictionary.view.main.adapter.MainAdapter
+import javax.inject.Inject
 
 class MainActivity : BaseActivity<AppState>() {
 
+    @Inject
+    internal lateinit var viewModelFactory: ViewModelProvider.Factory
+
     private lateinit var binding: ActivityMainBinding
 
+    /**Создаём модель*/
+    override val model: MainViewModel by lazy {
+        ViewModelProvider(this@MainActivity, viewModelFactory).get(MainViewModel::class.java)
+    }
+    /**Паттерн Observer в действии. Именно с его помощью мы подписываемся на изменения в LiveData*/
+    private val observer = Observer<AppState> { renderData(it) }
     private var adapter: MainAdapter? = null
     private val onListItemClickListener: MainAdapter.OnListItemClickListener =
         object : MainAdapter.OnListItemClickListener {
@@ -27,22 +38,27 @@ class MainActivity : BaseActivity<AppState>() {
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        /**Сообщаем Dagger’у, что тут понадобятся зависимости*/
+        MyDictionaryApp.instance.component.inject(this)
+
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        model.subscribe().observe(this, observer)
         binding.searchFab.setOnClickListener {
             val searchDialogFragment = SearchDialogFragment.newInstance()
             searchDialogFragment.setOnSearchClickListener(object :
                 SearchDialogFragment.OnSearchClickListener {
+                /**Обратите внимание на этот ключевой момент. У ViewModel мы получаем LiveData через
+                метод getData и подписываемся на изменения, передавая туда observer*/
                 override fun onClick(searchWord: String) {
-                    presenter.getData(searchWord, true)
+                    model.getData(searchWord, true).observe(this@MainActivity, observer)
                 }
             })
             searchDialogFragment.show(supportFragmentManager, BOTTOM_SHEET_FRAGMENT_DIALOG_TAG)
         }
     }
-
-    override fun createPresenter(): Presenter<AppState, BaseView> = MainPresenterImpl()
 
     override fun renderData(appState: AppState) {
         when (appState) {
@@ -81,14 +97,12 @@ class MainActivity : BaseActivity<AppState>() {
         }
     }
 
+    /**В случае ошибки мы повторно запрашиваем данные и подписываемся на изменения*/
     private fun showErrorScreen(error: String?) {
         showViewError()
         binding.errorTextview.text = error ?: getString(R.string.undefined_error)
         binding.reloadButton.setOnClickListener {
-            presenter.getData(
-                "hi",
-                true
-            )
+            model.getData("hi", true).observe(this, observer)
         }
     }
 
