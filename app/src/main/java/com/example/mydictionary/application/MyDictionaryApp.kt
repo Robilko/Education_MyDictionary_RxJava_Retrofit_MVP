@@ -1,24 +1,17 @@
 package com.example.mydictionary.application
 
 import android.app.Application
-import com.example.mydictionary.di.components.AppComponent
-import com.example.mydictionary.di.components.DaggerAppComponent
+import com.example.mydictionary.di.application
+import com.example.mydictionary.di.mainScreen
+import org.koin.core.context.startKoin
 
 class MyDictionaryApp : Application() {
 
-    lateinit var component: AppComponent
-
+    /**Инициализируем Koin в приложении*/
     override fun onCreate() {
         super.onCreate()
-        instance = this
-        component = DaggerAppComponent.builder()
-            .setContext(this)
-            .build()
+        startKoin {
+            modules(listOf(application, mainScreen))
+        }
     }
-
-    companion object {
-        lateinit var instance: MyDictionaryApp
-    }
-
-
 }
