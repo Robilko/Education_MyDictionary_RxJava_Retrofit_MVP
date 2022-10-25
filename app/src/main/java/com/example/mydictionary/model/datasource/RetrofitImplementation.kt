@@ -1,6 +1,8 @@
 package com.example.mydictionary.model.datasource
 
 import com.example.mydictionary.model.data.DataModel
+import com.example.mydictionary.model.data.api.ApiService
+import com.example.mydictionary.model.data.api.BaseInterceptor
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -18,10 +20,12 @@ class RetrofitImplementation : DataSource<List<DataModel>> {
 
     /**Обратите внимание на Builder: в addCallAdapterFactory теперь передаётся CoroutineCallAdapterFactory() которая позволяет Retrofit работать с корутинами. Для ее использования нужно прописать для Ретрофита зависимость вместо той, которая была для Rx: implementation 'com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2'*/
     private fun createRetrofit(interceptor: Interceptor): Retrofit {
-        return Retrofit.Builder().baseUrl(BASE_URL_LOCATIONS)
+        return Retrofit.Builder()
+            .baseUrl(BASE_URL_LOCATIONS)
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(CoroutineCallAdapterFactory())
-            .client(createOkHttpClient(interceptor)).build()
+            .client(createOkHttpClient(interceptor))
+            .build()
     }
 
     private fun createOkHttpClient(interceptor: Interceptor): OkHttpClient {

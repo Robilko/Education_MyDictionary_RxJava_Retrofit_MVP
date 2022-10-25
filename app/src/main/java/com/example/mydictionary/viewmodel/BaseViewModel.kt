@@ -18,7 +18,7 @@ abstract class BaseViewModel<T : AppState>(
      *  если какая-то корутина упадёт с ошибкой, остальные будут выполнены нормально;
      *  - CoroutineExceptionHandler позволяет перехватывать и отрабатывать ошибки и краши*/
 
-    protected val viewModelCorutineScope = CoroutineScope(
+    protected val viewModelCoroutineScope = CoroutineScope(
         Dispatchers.Main
                 + SupervisorJob()
                 + CoroutineExceptionHandler { _, throwable -> handleError(throwable) }
@@ -39,6 +39,6 @@ abstract class BaseViewModel<T : AppState>(
 
     /**Завершаем все незавершённые корутины, потому что пользователь закрыл экран*/
     protected fun cancelJob() {
-        viewModelCorutineScope.coroutineContext.cancelChildren()
+        viewModelCoroutineScope.coroutineContext.cancelChildren()
     }
 }
