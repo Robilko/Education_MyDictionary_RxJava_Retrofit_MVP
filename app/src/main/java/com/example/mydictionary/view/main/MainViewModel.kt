@@ -2,7 +2,7 @@ package com.example.mydictionary.view.main
 
 import androidx.lifecycle.LiveData
 import com.example.model.data.AppState
-import com.example.model.data.DataModel
+import com.example.model.data.dto.SearchResultDto
 import com.example.core.viewmodel.BaseViewModel
 import com.example.mydictionary.utils.parseOnlineSearchResults
 import kotlinx.coroutines.Dispatchers
@@ -25,7 +25,7 @@ class MainViewModel(private val interactor: MainInteractor) : BaseViewModel<AppS
         viewModelCoroutineScope.launch { startInteractor(word, isOnline) }
     }
 
-    suspend fun getDataByWord(word: String): DataModel? {
+    suspend fun getDataByWord(word: String): SearchResultDto? {
         return interactor.getDataByWord(word)
     }
 

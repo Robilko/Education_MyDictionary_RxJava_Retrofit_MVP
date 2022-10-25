@@ -9,6 +9,7 @@ dependencies {
     implementation project(Modules.model)
     implementation project(Modules.repository)
 
+    implementation Design.material
     implementation Design.appcompat
     implementation Design.recycleView
     //Kotlin

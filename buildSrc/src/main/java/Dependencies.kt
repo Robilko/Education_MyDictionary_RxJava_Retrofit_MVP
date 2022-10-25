@@ -23,6 +23,7 @@ object Modules {
 }
 
 object Versions {
+
     //Design
     const val appcompat = "1.4.1"
     const val material = "1.5.0"
@@ -47,7 +48,7 @@ object Versions {
     const val coroutinesAdapter = "0.9.2"
 
     //Koin
-    const val koin_version = "3.1.5"
+    const val koin_version = "3.1.2"
 
     // Picasso
     const val picasso = "2.71828"

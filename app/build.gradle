@@ -64,11 +64,8 @@ dependencies {
     implementation Retrofit.coroutinesAdapter
 
     //Koin
-    //Основная библиотека
     implementation Koin.core
-    //Koin для поддержки Android (Scope,ViewModel ...)
     implementation Koin.android
-    //Для совместимости с Java
     implementation Koin.android_compat
 
     //Coroutines

@@ -17,7 +17,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.example.mydictionary.R
 import com.example.mydictionary.databinding.ActivityDescriptionBinding
-import com.example.utils.network.isOnline
+import com.example.utils.network.OnlineLiveData
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import com.example.utils.ui.AlertDialogFragment
@@ -46,6 +46,7 @@ class DescriptionActivity : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
     }
+
     /**Кнопка на ActionBar для возврата на предыдущий экран*/
     private fun setActionbarHomeButtonAsUp() {
         supportActionBar?.setHomeButtonEnabled(true)
@@ -61,24 +62,31 @@ class DescriptionActivity : AppCompatActivity() {
         if (imageLink.isNullOrBlank()) {
             stopRefreshAnimationIfNeeded()
         } else {
-                //Picasso
+            //Picasso
             //usePicassoToLoadPhoto(binding.descriptionImageview, imageLink)
-                // Glide
+            // Glide
             //useGlideToLoadPhoto(binding.descriptionImageview, imageLink)
-                //Coil
+            //Coil
             useCoilToLoadPhoto(binding.descriptionImageview, imageLink)
         }
     }
 
     private fun startLoadingOrShowError() {
-        if (isOnline(applicationContext)) {
-            setData()
-        } else {
-            AlertDialogFragment.newInstance(
-                getString(R.string.dialog_title_device_is_offline),
-                getString(R.string.dialog_message_device_is_offline)
-            ).show(supportFragmentManager, DIALOG_FRAGMENT_TAG)
-            stopRefreshAnimationIfNeeded()
+        OnlineLiveData(this).observe(
+            this@DescriptionActivity,
+        ) {
+            if (it) {
+                setData()
+            } else {
+                AlertDialogFragment.newInstance(
+                    getString(R.string.dialog_title_device_is_offline),
+                    getString(R.string.dialog_message_device_is_offline)
+                ).show(
+                    supportFragmentManager,
+                    DIALOG_FRAGMENT_TAG
+                )
+                stopRefreshAnimationIfNeeded()
+            }
         }
     }
 
@@ -87,6 +95,7 @@ class DescriptionActivity : AppCompatActivity() {
             binding.descriptionScreenSwipeRefreshLayout.isRefreshing = false
         }
     }
+
     /**Метод загрузки изображения с помощью Picasso*/
     private fun usePicassoToLoadPhoto(imageView: ImageView, imageLink: String) {
         Picasso.get().load("https:$imageLink")
@@ -102,6 +111,7 @@ class DescriptionActivity : AppCompatActivity() {
                 }
             })
     }
+
     /**Метод загрузки изображения с помощью Glide*/
     private fun useGlideToLoadPhoto(imageView: ImageView, imageLink: String) {
         Glide.with(imageView)
@@ -128,9 +138,11 @@ class DescriptionActivity : AppCompatActivity() {
                     stopRefreshAnimationIfNeeded()
                     return false
                 }
-            }).apply(RequestOptions()
-                .placeholder(R.drawable.ic_no_photo_vector)
-                .centerCrop()).into(imageView)
+            }).apply(
+                RequestOptions()
+                    .placeholder(R.drawable.ic_no_photo_vector)
+                    .centerCrop()
+            ).into(imageView)
     }
 
     private fun useCoilToLoadPhoto(imageView: ImageView, imageLink: String) {
@@ -138,8 +150,8 @@ class DescriptionActivity : AppCompatActivity() {
             .data("https:$imageLink")
             .target(
                 onStart = {},
-                onSuccess = {result -> imageView.setImageDrawable(result)},
-                onError = {imageView.setImageResource(R.drawable.ic_load_error_vector)}
+                onSuccess = { result -> imageView.setImageDrawable(result) },
+                onError = { imageView.setImageResource(R.drawable.ic_load_error_vector) }
             )
             //.transformations(CircleCropTransformation()) //метод обрезает изображение по кругу. Можно убрать
             .build()
@@ -154,7 +166,13 @@ class DescriptionActivity : AppCompatActivity() {
         private const val DESCRIPTION_EXTRA = "0eeb92aa-520b-4fd1-bb4b-027fbf963d9a"
         private const val URL_EXTRA = "6e4b154d-e01f-4953-a404-639fb3bf7281"
 
-        fun getIntent(context: Context, word: String, transcription: String, description: String, url: String?): Intent =
+        fun getIntent(
+            context: Context,
+            word: String,
+            transcription: String,
+            description: String,
+            url: String?
+        ): Intent =
             Intent(context, DescriptionActivity::class.java).apply {
                 putExtra(WORD_EXTRA, word)
                 putExtra(TRANSCRIPTION_EXTRA, transcription)

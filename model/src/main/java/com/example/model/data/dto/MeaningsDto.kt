@@ -1,9 +1,9 @@
-package com.example.model.data
+package com.example.model.data.dto
 
 import com.google.gson.annotations.SerializedName
 
-class Meanings(
-    @field:SerializedName("translation") val translation: Translation?,
+class MeaningsDto(
+    @field:SerializedName("translation") val translation: TranslationDto?,
     @field:SerializedName("imageUrl") val imageUrl: String?,
     @field:SerializedName("transcription") val transcription: String?
 )
